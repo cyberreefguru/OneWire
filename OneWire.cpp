@@ -195,7 +195,12 @@ uint8_t OneWire::reset(void)
 // Write a bit. Port and bit is used to cut lookup time and provide
 // more certain timing.
 //
+//void OneWire::write_bit(uint8_t v)
+#if defined(ARDUINO_ARCH_ESP32)
+void IRAM_ATTR OneWire::write_bit(uint8_t v)
+#else
 void OneWire::write_bit(uint8_t v)
+#endif
 {
 	IO_REG_TYPE mask IO_REG_MASK_ATTR = bitmask;
 	volatile IO_REG_TYPE *reg IO_REG_BASE_ATTR = baseReg;
@@ -223,7 +228,12 @@ void OneWire::write_bit(uint8_t v)
 // Read a bit. Port and bit is used to cut lookup time and provide
 // more certain timing.
 //
+//uint8_t OneWire::read_bit(void)
+#if defined(ARDUINO_ARCH_ESP32)
+uint8_t IRAM_ATTR OneWire::read_bit(void)
+#else
 uint8_t OneWire::read_bit(void)
+#endif
 {
 	IO_REG_TYPE mask IO_REG_MASK_ATTR = bitmask;
 	volatile IO_REG_TYPE *reg IO_REG_BASE_ATTR = baseReg;
